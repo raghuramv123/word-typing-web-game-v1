@@ -28,7 +28,7 @@ public class SecurityConfig {
     private final JwtFilter jwtFilter;
     private final String corsOrigins;
 
-    public SecurityConfig(JwtFilter jwtFilter, @Value("${app.cors-origins}") String corsOrigins) {
+    public SecurityConfig(JwtFilter jwtFilter, @Value("${CORS_ORIGINS:http://localhost:5173}") String corsOrigins) {
         this.jwtFilter = jwtFilter;
         this.corsOrigins = corsOrigins;
     }
