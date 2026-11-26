@@ -28,8 +28,8 @@ public class DataSeeder implements CommandLineRunner {
 
     public DataSeeder(UserRepository users, RootRepository roots, WordRepository words,
                       PasswordEncoder encoder,
-                      @Value("${app.admin-username}") String adminUsername,
-                      @Value("${app.admin-password}") String adminPassword) {
+                      @Value("${ADMIN_USERNAME:admin}") String adminUsername,
+                      @Value("${ADMIN_PASSWORD:admin12345}") String adminPassword) {
         this.users = users;
         this.roots = roots;
         this.words = words;
