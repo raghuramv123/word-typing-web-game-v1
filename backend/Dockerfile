@@ -13,5 +13,7 @@ COPY --from=build /app/target/app.jar app.jar
 
 # Free-tier instances have little RAM, so keep the JVM small.
 ENV JAVA_OPTS="-Xmx350m -XX:+UseSerialGC -XX:TieredStopAtLevel=1"
+# Safety net: these work even if application.properties is missing
+ENV SPRING_JPA_HIBERNATE_DDL_AUTO=update
 EXPOSE 8080
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -Dserver.port=${PORT:-8080} -jar app.jar"]
