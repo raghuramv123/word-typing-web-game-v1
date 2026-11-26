@@ -16,11 +16,14 @@ public class JwtService {
     private final SecretKey key;
     private final long expirationMs;
 
-    public JwtService(@Value("${app.jwt-secret}") String secret,
-                      @Value("${app.jwt-expiration-hours}") long hours) {
+    // Read straight from the environment variables (works even if application.properties is missing).
+    public JwtService(@Value("${JWT_SECRET:}") String secret,
+                      @Value("${JWT_EXPIRATION_HOURS:24}") long hours) {
         byte[] bytes = secret.getBytes(StandardCharsets.UTF_8);
         if (bytes.length < 32) {
-            throw new IllegalStateException("JWT_SECRET must be at least 32 characters long");
+            throw new IllegalStateException(
+                    "Environment variable JWT_SECRET is missing or shorter than 32 characters. "
+                            + "Set it in Render > Environment.");
         }
         this.key = Keys.hmacShaKeyFor(bytes);
         this.expirationMs = hours * 3_600_000L;
